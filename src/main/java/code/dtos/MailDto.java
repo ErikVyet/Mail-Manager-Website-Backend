@@ -1,29 +1,63 @@
-package code.models;
+package code.dtos;
 
+import java.io.Serializable;
 import java.time.OffsetDateTime;
 import java.util.List;
+
+import org.hibernate.validator.constraints.Length;
 
 import code.metadata.Attachment;
 import code.metadata.Recipients;
 import code.metadata.UserInfo;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
-public class Mail {
+public class MailDto implements Serializable {
+
+    private static final long serialVersionUID = 6L;
     
     private String id;
+
+    @NotBlank(message = "User's ID must not be empty or blank")
     private String userId;
+
+    @NotBlank(message = "Thread's ID must not be empty or blank")
     private String threadId;
+
+    @NotNull(message = "Sender's info must not be empty")
+    @Valid
     private UserInfo sender;
+
+    @NotNull(message = "Recipients must not be empty")
+    @Valid
     private Recipients recipients;
+
+    @NotBlank(message = "Subject must not be empty or blank")
+    @Length(max = 50, message = "Subject must not exceed 50 characters")
     private String subject;
+
     private String html;
+
     private String text;
+
+    @NotEmpty(message = "The number of labels must not be empty")
     private List<Long> labelIds;
+
+    @NotNull(message = "Read status must not be empty")
     private Boolean isRead;
+
+    @NotNull(message = "Starred status must not be empty")
     private Boolean isStarred;
+
+    @NotNull(message = "Attachments must not be null")
     private List<Attachment> attachments;
+
+    @NotNull(message = "Creation timestamp can not be null")
     private OffsetDateTime createdAt;
 
-    public Mail() { }
+    public MailDto() { }
 
     public String getId() {
         return id;
@@ -128,5 +162,7 @@ public class Mail {
     public void setCreatedAt(OffsetDateTime createdAt) {
         this.createdAt = createdAt;
     }
+
+    
 
 }

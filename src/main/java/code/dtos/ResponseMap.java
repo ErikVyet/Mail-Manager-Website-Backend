@@ -1,6 +1,10 @@
 package code.dtos;
 
-public class ResponseMap<T> {
+import java.io.Serializable;
+
+public class ResponseMap<T> implements Serializable {
+
+    private static final long serialVersionUID = 5L;
     
     private Integer status;
     private String message;
