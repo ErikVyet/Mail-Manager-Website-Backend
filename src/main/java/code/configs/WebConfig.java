@@ -22,14 +22,15 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowCredentials(true)
                 .allowedOriginPatterns("*")
                 .allowedHeaders("*")
-                .allowedMethods("GET", "POST", "DELETE", "PATCH", "PUT", "OPTION");
+                .allowedMethods("GET", "POST", "DELETE", "PATCH", "PUT", "OPTIONS");
         WebMvcConfigurer.super.addCorsMappings(registry);
     }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(this.apiKeyInterceptorHandler)
-                .addPathPatterns("/vletter/api/v1/**");
+                .addPathPatterns("/vletter/api/v1/**")
+                .excludePathPatterns("/vletter/api/v1/health/");
         WebMvcConfigurer.super.addInterceptors(registry);
     }
 

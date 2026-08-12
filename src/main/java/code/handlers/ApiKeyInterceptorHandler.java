@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import code.exceptions.UnauthorizedException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -16,7 +17,10 @@ public class ApiKeyInterceptorHandler implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String key = request.getHeader("key");
-        return this.apiKey.equals(key);
+        if (!this.apiKey.equals(key)) {
+            throw new UnauthorizedException("You are not authorized");
+        }
+        return true;
     }
 
 }
