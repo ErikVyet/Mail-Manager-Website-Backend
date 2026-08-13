@@ -26,7 +26,7 @@ public class Setting {
     private String signature;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     public User user;
 
     public Setting() { }

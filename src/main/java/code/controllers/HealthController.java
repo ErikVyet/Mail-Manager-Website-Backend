@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import code.dtos.ResponseMap;
 
 @RestController
-@RequestMapping("/vletter/api/v1/health")
+@RequestMapping("/vletter/api/health")
 public class HealthController {
     
     @GetMapping("/")

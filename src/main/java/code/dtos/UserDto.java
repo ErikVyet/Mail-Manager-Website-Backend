@@ -8,6 +8,7 @@ import org.hibernate.validator.constraints.Length;
 
 import code.enums.UserStatus;
 import code.models.User;
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -26,6 +27,9 @@ public class UserDto implements Serializable {
     @Length(min = 10, max = 254, message = "Email must be within 10 to 254 characters")
     @NotBlank(message = "Email must not be blank or empty")
     private String email;
+
+    @Column(columnDefinition = "text")
+    private String avatar;
 
     @NotNull(message = "User' status must not be empty")
     private UserStatus status;
@@ -66,6 +70,14 @@ public class UserDto implements Serializable {
         this.status = status;
     }
 
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
     public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
@@ -82,6 +94,7 @@ public class UserDto implements Serializable {
         dto.setId(entity.getId());
         dto.setName(entity.getName());
         dto.setEmail(entity.getEmail());
+        dto.setAvatar(entity.getAvatar());
         dto.setStatus(entity.getStatus());
         dto.setCreatedAt(entity.getCreatedAt());
         return dto;
@@ -95,6 +108,7 @@ public class UserDto implements Serializable {
         entity.setId(dto.getId());
         entity.setName(dto.getName());
         entity.setEmail(dto.getEmail());
+        entity.setAvatar(dto.getAvatar());
         entity.setStatus(dto.getStatus());
         entity.setCreatedAt(dto.getCreatedAt());
         return entity;

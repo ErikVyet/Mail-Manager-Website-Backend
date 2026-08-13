@@ -4,9 +4,9 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
-import org.springframework.data.annotation.CreatedDate;
 
 import code.enums.UserStatus;
 import jakarta.persistence.CascadeType;
@@ -39,20 +39,19 @@ public class User {
     @Column(length = 254, unique = true, updatable = false, nullable = false)
     private String email;
 
-    @JdbcTypeCode(value = SqlTypes.CHAR)
-    @Column(name = "password_hash", length = 64, nullable = false)
-    private String password;
+    @Column(columnDefinition = "text")
+    private String avatar;
 
     @Enumerated(value = EnumType.ORDINAL)
     @Column(nullable = false)
     private UserStatus status;
 
     @JdbcTypeCode(SqlTypes.TIMESTAMP)
-    @CreatedDate
-    @Column(name = "created_at",updatable = false, nullable = false)
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false, nullable = false)
     private OffsetDateTime createdAt;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.REMOVE }, fetch = FetchType.LAZY)
     private Setting setting;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
@@ -87,12 +86,12 @@ public class User {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public UserStatus getStatus() {
