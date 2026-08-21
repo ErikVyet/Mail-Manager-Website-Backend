@@ -1,5 +1,6 @@
 package code.models;
 
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.List;
 
@@ -7,7 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
-import code.enums.PaymentMethod;
+import code.enums.BillingInterval;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,20 +22,32 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "payments")
-public class Payment {
-    
+@Table(name = "plans")
+public class Plan {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @JdbcTypeCode(SqlTypes.VARCHAR)
-    @Column(length = 100, unique = true, nullable = false)
+    @Column(length = 10, unique = true, nullable = false)
     private String name;
-    
+
+    @JdbcTypeCode(SqlTypes.NUMERIC)
+    @Column(precision = 5, scale = 2, nullable = false)
+    private BigDecimal price;
+
     @Enumerated(EnumType.ORDINAL)
-    @Column(nullable = false)
-    private PaymentMethod method;
+    @Column(name = "billing_interval", nullable = false)
+    private BillingInterval billingInterval;
+
+    @JdbcTypeCode(SqlTypes.INTEGER)
+    @Column(name = "max_api_keys", nullable = false)
+    private Integer maxApiKeys;
+
+    @JdbcTypeCode(SqlTypes.BIGINT)
+    @Column(name = "max_api_calls", nullable = false)
+    private Long maxApiCalls;
 
     @JdbcTypeCode(SqlTypes.BOOLEAN)
     @Column(name = "is_active", nullable = false)
@@ -45,13 +58,10 @@ public class Payment {
     @Column(name = "created_at", updatable = false, nullable = false)
     private OffsetDateTime createdAt;
 
-    @OneToMany(mappedBy = "payment", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "plan", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private List<Subscription> subscriptions;
 
-    @OneToMany(mappedBy = "payment", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    private List<Billing> billings;
-
-    public Payment() { }
+    public Plan() { }
 
     public Integer getId() {
         return id;
@@ -69,6 +79,38 @@ public class Payment {
         this.name = name;
     }
 
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public BillingInterval getBillingInterval() {
+        return billingInterval;
+    }
+
+    public void setBillingInterval(BillingInterval billingInterval) {
+        this.billingInterval = billingInterval;
+    }
+
+    public Integer getMaxApiKeys() {
+        return maxApiKeys;
+    }
+
+    public void setMaxApiKeys(Integer maxApiKeys) {
+        this.maxApiKeys = maxApiKeys;
+    }
+
+    public Long getMaxApiCalls() {
+        return maxApiCalls;
+    }
+
+    public void setMaxApiCalls(Long maxApiCalls) {
+        this.maxApiCalls = maxApiCalls;
+    }
+
     public Boolean getActive() {
         return active;
     }
@@ -76,14 +118,6 @@ public class Payment {
     public void setActive(Boolean active) {
         this.active = active;
     }
-
-    public PaymentMethod getMethod() {
-        return method;
-    }
-
-    public void setMethod(PaymentMethod method) {
-        this.method = method;
-    };
 
     public OffsetDateTime getCreatedAt() {
         return createdAt;

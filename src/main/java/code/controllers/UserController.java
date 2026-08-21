@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import code.dtos.ResponseMap;
 import code.dtos.UserDto;
+import code.enums.UserRole;
 import code.enums.UserStatus;
 import code.services.UserService;
 import jakarta.validation.Valid;
@@ -32,6 +33,7 @@ public class UserController {
         userDto.setName(jwt.getClaimAsString("name"));
         userDto.setEmail(jwt.getClaimAsString("email"));
         userDto.setAvatar(jwt.getClaimAsString("avatar"));
+        userDto.setRole(UserRole.Default);
         userDto.setStatus(UserStatus.Online);
 
         ResponseMap<UserDto> responseMap = new ResponseMap<>();

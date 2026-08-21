@@ -28,6 +28,10 @@ public class Api {
     @Column(length = 256, unique = true, updatable = false, nullable = false)
     private String key;
 
+    @JdbcTypeCode(SqlTypes.BIGINT)
+    @Column(name = "call_counts", nullable = false)
+    private Long callCounts;
+
     @JdbcTypeCode(SqlTypes.TIMESTAMP)
     @CreationTimestamp
     @Column(name = "created_at", updatable = false, nullable = false)
@@ -52,6 +56,14 @@ public class Api {
 
     public void setKey(String key) {
         this.key = key;
+    }
+
+    public Long getCallCounts() {
+        return callCounts;
+    }
+
+    public void setCallCounts(Long callCounts) {
+        this.callCounts = callCounts;
     }
 
     public OffsetDateTime getCreatedAt() {

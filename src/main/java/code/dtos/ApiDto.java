@@ -19,6 +19,9 @@ public class ApiDto implements Serializable  {
     @Length(min = 256, max = 256, message = "Invalid API key structure")
     private String key;
 
+    @NotNull(message = "Require initial call counts")
+    private Long callCounts;
+
     @NotNull(message = "Required creation timestamp of API key")
     private OffsetDateTime createdAt;
 
@@ -40,6 +43,14 @@ public class ApiDto implements Serializable  {
         this.key = key;
     }
 
+    public Long getCallCounts() {
+        return callCounts;
+    }
+
+    public void setCallCounts(Long callCounts) {
+        this.callCounts = callCounts;
+    }
+
     public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
@@ -55,6 +66,7 @@ public class ApiDto implements Serializable  {
         ApiDto dto = new ApiDto();
         dto.setId(entity.getId());
         dto.setKey(entity.getKey());
+        dto.setCallCounts(entity.getCallCounts());
         dto.setCreatedAt(entity.getCreatedAt());
         return dto;
     }
@@ -66,6 +78,7 @@ public class ApiDto implements Serializable  {
         Api entity = new Api();
         entity.setId(dto.getId());
         entity.setKey(dto.getKey());
+        entity.setCallCounts(dto.getCallCounts());
         entity.setCreatedAt(dto.getCreatedAt());
         return entity;
     }

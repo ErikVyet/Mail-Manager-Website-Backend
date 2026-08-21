@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.hibernate.validator.constraints.Length;
 
+import code.enums.UserRole;
 import code.enums.UserStatus;
 import code.models.User;
 import jakarta.validation.constraints.Email;
@@ -34,6 +35,9 @@ public class UserDto implements Serializable {
 
     @NotNull(message = "Status must not be empty")
     private UserStatus status;
+
+    @NotNull(message = "Role must not be empty")
+    private UserRole role;
 
     private OffsetDateTime createdAt;
 
@@ -71,6 +75,14 @@ public class UserDto implements Serializable {
         this.status = status;
     }
 
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
+    }
+
     public String getAvatar() {
         return avatar;
     }
@@ -106,6 +118,7 @@ public class UserDto implements Serializable {
         dto.setAvatar(entity.getAvatar());
         dto.setDescription(entity.getDescription());
         dto.setStatus(entity.getStatus());
+        dto.setRole(entity.getRole());
         dto.setCreatedAt(entity.getCreatedAt());
         return dto;
     }
@@ -121,6 +134,7 @@ public class UserDto implements Serializable {
         entity.setAvatar(dto.getAvatar());
         entity.setDescription(dto.getDescription());
         entity.setStatus(dto.getStatus());
+        entity.setRole(dto.getRole());
         entity.setCreatedAt(dto.getCreatedAt());
         return entity;
     }

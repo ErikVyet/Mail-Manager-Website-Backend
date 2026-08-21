@@ -45,6 +45,7 @@ public class ApiService {
         Api api = new Api();
         api.setUser(user);
         api.setKey(CryptographyUtils.getInstance().generateApiKey());
+        api.setCallCounts(0L);
         return ApiDto.toDto(this.apiRepository.save(api));
     }
 

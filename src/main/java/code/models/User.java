@@ -8,6 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+import code.enums.UserRole;
 import code.enums.UserStatus;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -46,9 +47,13 @@ public class User {
     @Column(length = 255)
     private String description;
 
-    @Enumerated(value = EnumType.ORDINAL)
+    @Enumerated(EnumType.ORDINAL)
     @Column(nullable = false)
     private UserStatus status;
+
+    @Enumerated(EnumType.ORDINAL)
+    @Column(updatable = false, nullable = false)
+    private UserRole role;
 
     @JdbcTypeCode(SqlTypes.TIMESTAMP)
     @CreationTimestamp
@@ -58,7 +63,7 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.REMOVE }, fetch = FetchType.LAZY)
     private Setting setting;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.REMOVE }, fetch = FetchType.LAZY)
     private List<Label> labels;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
@@ -66,6 +71,12 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.REMOVE }, fetch =  FetchType.LAZY)
     private List<Api> apis;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    private List<Subscription> subscriptions;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    private List<Billing> billings;
 
     public User() { }
 
@@ -117,6 +128,14 @@ public class User {
         this.status = status;
     }
 
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
+    }
+
     public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
@@ -155,6 +174,22 @@ public class User {
 
     public void setApis(List<Api> apis) {
         this.apis = apis;
+    }
+
+    public List<Subscription> getSubscriptions() {
+        return subscriptions;
+    }
+
+    public void setSubscriptions(List<Subscription> subscriptions) {
+        this.subscriptions = subscriptions;
+    }
+
+    public List<Billing> getBillings() {
+        return billings;
+    }
+
+    public void setBillings(List<Billing> billings) {
+        this.billings = billings;
     }
 
 }

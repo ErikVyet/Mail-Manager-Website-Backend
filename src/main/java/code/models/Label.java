@@ -4,6 +4,7 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import code.enums.LabelType;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -30,14 +31,14 @@ public class Label {
     private String name;
 
     @JdbcTypeCode(SqlTypes.CHAR)
-    @Column(length = 7, nullable = false)
+    @Column(length = 7)
     private String color;
 
     @Enumerated(value = EnumType.ORDINAL)
     @Column(updatable = false, nullable = false)
     private LabelType type;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", updatable = false, nullable = false)
     private User user;
 
