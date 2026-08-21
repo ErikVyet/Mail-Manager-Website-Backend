@@ -17,8 +17,11 @@ public class SecurityConfig {
             .cors(Customizer.withDefaults())
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/vletter/api/v1/**").authenticated()
-                .requestMatchers("/vletter/api/v1/health/**").permitAll()
+                .requestMatchers(
+                    "/vletter/api/v1/dev/**",
+                    "/vletter/api/v1/setting/**",
+                    "/vletter/api/v1/user/**"
+                ).authenticated()
                 .anyRequest().permitAll()
             )
             .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));
