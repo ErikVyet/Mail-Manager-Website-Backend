@@ -42,6 +42,10 @@ public class User {
     @Column(columnDefinition = "text")
     private String avatar;
 
+    @JdbcTypeCode(value = SqlTypes.VARCHAR)
+    @Column(length = 255)
+    private String description;
+
     @Enumerated(value = EnumType.ORDINAL)
     @Column(nullable = false)
     private UserStatus status;
@@ -59,6 +63,9 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<Contact> contacts;
+
+    @OneToMany(mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.REMOVE }, fetch =  FetchType.LAZY)
+    private List<Api> apis;
 
     public User() { }
 
@@ -92,6 +99,14 @@ public class User {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public UserStatus getStatus() {
@@ -132,6 +147,14 @@ public class User {
 
     public void setContacts(List<Contact> contacts) {
         this.contacts = contacts;
+    }
+
+    public List<Api> getApis() {
+        return apis;
+    }
+
+    public void setApis(List<Api> apis) {
+        this.apis = apis;
     }
 
 }

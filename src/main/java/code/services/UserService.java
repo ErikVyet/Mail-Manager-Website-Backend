@@ -32,4 +32,12 @@ public class UserService {
         return UserDto.toDto(user);
     }
 
+    @Transactional
+    public UserDto updateUser(UserDto userDto) {
+        if (!this.userRepository.existsById(userDto.getId())) {
+            return null;
+        }
+        return UserDto.toDto(this.userRepository.save(UserDto.toEntity(userDto)));
+    }
+
 }
