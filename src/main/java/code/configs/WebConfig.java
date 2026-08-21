@@ -30,7 +30,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(this.apiKeyInterceptorHandler)
                 .addPathPatterns("/vletter/api/v1/**")
-                .excludePathPatterns("/vletter/api/v1/health/");
+                .excludePathPatterns("/vletter/api/v1/health/**");
         WebMvcConfigurer.super.addInterceptors(registry);
     }
 
